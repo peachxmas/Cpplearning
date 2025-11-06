@@ -215,31 +215,46 @@ using namespace std;
 //．编写两个重载的函数，它们分别使用下述公式计算球和圆柱体的体积：
 //Volume of sphere = (4 * Pi * radius * radius * radius) / 3
 //Volume of a cylinder = Pi * radius * radius * height
-const double pi = 3.14;
+// const double pi = 3.14;
 
-float volume(int radius);
+// float volume(int radius);
 
-float volume(int radius, int height);
+// float volume(int radius, int height);
 
-int main() {
-    cout << "请输入半径：";
-    int r = 0;
-    cin >> r;
-    cout << endl;
-    cout << volume(r) << " " << endl;
-    cout << "请输入高度：";
-    int h = 0;
-    cin >> h;
-    cout << volume(r, h) << " " << endl;
-    return 0;
-}
+// int main() {
+//     cout << "请输入半径：";
+//     int r = 0;
+//     cin >> r;
+//     cout << endl;
+//     cout << volume(r) << " " << endl;
+//     cout << "请输入高度：";
+//     int h = 0;
+//     cin >> h;
+//     cout << volume(r, h) << " " << endl;
+//     return 0;
+// }
 
-float volume(int radius) {
-    float volumeOfSphere = (4 * pi * radius * radius * radius) / 3;
-    return volumeOfSphere;
-}
+// float volume(int radius) {
+//     float volumeOfSphere = (4 * pi * radius * radius * radius) / 3;
+//     return volumeOfSphere;
+// }
 
-float volume(int radius, int height) {
-    float volumeOfCylinder = pi * radius * radius * height;
-    return volumeOfCylinder;
-}
+// float volume(int radius, int height) {
+//     float volumeOfCylinder = pi * radius * radius * height;
+//     return volumeOfCylinder;
+// }
+//c++引用
+//语法：数据类型 &别名=原名
+// 引用传递形参会修饰实参
+// int main(){
+// int a=10;
+// int &b=a;
+// b=20; 
+// return 0;
+
+// }
+
+//访问权限
+//公共权限 public       类内类外都可以访问
+//保护权限 protected    类外不可以访问 子类可以访问父类保护内容
+//私有权限 private      类外不可以访问 子类不可以访问父类私有内容
