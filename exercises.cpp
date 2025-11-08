@@ -2,6 +2,16 @@
 
 using namespace std;
 
+class Fish
+{
+
+};
+
+int main()
+{
+
+    return 0;
+}
 //int main() {
 //    const double pi = 22.0 / 7;
 //    int r = 0;

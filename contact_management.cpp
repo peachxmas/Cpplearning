@@ -1,9 +1,8 @@
-/*待优化，预计11.7完成优化*/
 #include <iostream>
 #include <string>
-
 using namespace std;
 const int MAX=1000;
+const int PHONE_LENGTH=11;//手机号
 
 //联系人类
 class Person
@@ -29,7 +28,16 @@ class Addressbooks
     //通讯录中当前记录的联系人个数
     int m_Size;
 };
-
+bool isPhoneValid(const string& phone) {
+    if (phone.size() != PHONE_LENGTH) 
+        return false;
+    for (int i=0; i<phone.size(); i++) 
+    {
+        if (!isdigit(phone[i])) 
+        return false; // 逐个判断是否为数字
+    }
+    return true;
+}
 void addPerson(Addressbooks * abs)
 {
     //通讯录是否已满
@@ -65,15 +73,29 @@ void addPerson(Addressbooks * abs)
             }
         }
         //年龄
-        cout<<"请输入年龄："<<endl;
         int age=0;
-        cin>>age;
-        abs->personArray[abs->m_Size].m_Age=age;
+        cout<<"请输入年龄（1-120）："<<endl;
+        while (1)
+        {
+            cin>>age;
+            if (age >=1 && age <=120) {
+                abs->personArray[abs->m_Size].m_Age=age;
+                break;
+            }
+            cout<<"年龄输入有误！请输入1-120之间的整数："<<endl;
+        }
         //电话
-        cout<<"请输入联系电话："<<endl;
         string phone;
-        cin>>phone;
-        abs->personArray[abs->m_Size].m_Phone=phone;
+        cout<<"请输入11位联系电话："<<endl;
+        while (1)
+        {
+            cin>>phone;
+            if (isPhoneValid(phone)) { 
+                abs->personArray[abs->m_Size].m_Phone=phone;
+                break;
+            }
+            cout<<"手机号格式错误！需输入11位纯数字，请重新输入："<<endl;
+        }
         //住址
         cout<<"请输入住址："<<endl;
         string address;
@@ -81,8 +103,9 @@ void addPerson(Addressbooks * abs)
         abs->personArray[abs->m_Size].m_Addr=address;
         //更新通讯录人数
         abs->m_Size++;
-        cout<<"添加成功"<<endl;
-        getchar();
+        cout<<"添加成功！当前通讯录共有"<<abs->m_Size<<"位联系人"<<endl;
+        cin.ignore();
+        cin.get();//27章输入流
         system("clear");//清屏
     }
     
@@ -95,6 +118,7 @@ void showPerson(Addressbooks * abs)
     }
     else
     {
+        cout<<"==================== 联系人列表（共"<<abs->m_Size<<"人）===================="<<endl;
         for(int i=0;i<abs->m_Size;i++)
         {
             cout<<"姓名："<<abs->personArray[i].m_Name<<"\t";
@@ -103,9 +127,10 @@ void showPerson(Addressbooks * abs)
             cout<<"电话："<<abs->personArray[i].m_Phone<<"\t";
             cout<<"住址："<<abs->personArray[i].m_Addr<<endl;
         }
-
+        cout<<"======================================================================="<<endl;
     }
-    getchar();
+    cin.ignore();
+    cin.get();
     system("clear");
 
 }
@@ -134,13 +159,14 @@ void deletePerson(Addressbooks * abs)
             abs->personArray[i]=abs->personArray[i+1];
         }
         abs->m_Size--;
-        cout<<"删除成功"<<endl;
+        cout<<"删除成功！当前通讯录剩余"<<abs->m_Size<<"位联系人"<<endl;
     }
     else
     {
         cout<<"查无此人"<<endl;
     }
-    getchar();
+    cin.ignore();
+    cin.get();
     system("clear");
 }
 void findPerson(Addressbooks * abs)
@@ -151,17 +177,20 @@ void findPerson(Addressbooks * abs)
     int ret=isExist(abs,name);
     if(ret!=-1)
     {
+        cout<<"==================== 查找结果 ===================="<<endl;
         cout<<"姓名："<<abs->personArray[ret].m_Name<<"\t";
         cout<<"性别："<<(abs->personArray[ret].m_Sex==1?"男":"女")<<"\t";
         cout<<"年龄："<<abs->personArray[ret].m_Age<<"\t";
         cout<<"电话："<<abs->personArray[ret].m_Phone<<"\t";
         cout<<"住址："<<abs->personArray[ret].m_Addr<<endl;
+        cout<<"=================================================="<<endl;
     }
     else
     {
         cout<<"查无此人"<<endl;
     }
-    getchar();
+    cin.ignore();
+    cin.get();
     system("clear");
 }
 void modifyPerson(Addressbooks * abs)
@@ -220,7 +249,8 @@ void modifyPerson(Addressbooks * abs)
         cout<<"查无此人"<<endl;
 
     }
-    getchar();
+    cin.ignore();
+    cin.get();
     system("clear");
 
 }
@@ -228,12 +258,14 @@ void cleanPerson(Addressbooks * abs)
 {
     abs->m_Size=0;
     cout<<"通讯录已清空"<<endl;
-    getchar();
+    cin.ignore();
+    cin.get();
     system("clear");
 }
 //菜单界面
 void showMenu()
 {
+    cout<<"========================================"<<endl;
     cout<<"1.添加联系人"<<endl;
     cout<<"2.显示联系人"<<endl;
     cout<<"3.删除联系人"<<endl;
@@ -241,6 +273,7 @@ void showMenu()
     cout<<"5.修改联系人"<<endl;
     cout<<"6.清空联系人"<<endl;
     cout<<"0.退出通讯录"<<endl;
+    cout<<"========================================"<<endl;
 }
 int main()
 {
@@ -278,7 +311,8 @@ int main()
             break;
         case 0://0.退出通讯录
             cout<<"欢迎下次使用"<<endl;
-            getchar();
+            cin.ignore();
+            cin.get();
             return 0;
             break;
         default:
@@ -286,6 +320,7 @@ int main()
     }
 
     }
-    getchar();
+    cin.ignore();
+    cin.get();
     return 0;
 }
