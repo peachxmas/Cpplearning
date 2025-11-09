@@ -757,15 +757,177 @@ int main() {
 #### 第十二章：运算符与运算符重载
 运算符重载
   对已有的运算符进行重新定义，赋予其另一种功能
+  ```cpp
+      return_type operator operator_symbol (...parameter list...);
+  ``` 
 - 加号运算符重载
 - 左移运算符重载
+  ```cpp
+    operator const char*() 
+    { 
+    ostringstream formattedDate; //formattedDate 的类型是 ostringstream（输出字符串流）
+    formattedDate << month << " / " << day << " / " << year; 
+    dateInString = formattedDate.str(); 
+    return dateInString.c_str(); 
+    }
+    int main () 
+    { 
+    Date Holiday (12, 25, 2016); 
+    cout << "Holiday is on: " << Holiday << endl; 
+    return 0; 
+    }
+  ```  
 - 递增运算符重载    
   区分前置递增和后置递增，在括号里加int
+  ```cpp
+      Date& operator ++()//前置递增
+      {
+        ++day;
+        return *this;
+      }
+      Date operator ++(int)//后置递增
+      {
+        Date copy(month,day,year);
+        ++day;
+        return copy;
+      }
+  ``` 
   后置不可以链式编程
+- 解引用（*）和成员选择运算符（->）
+  ```cpp
+      unique_ptr<int> smartIntPtr(new int);/智能指针
+  ``` 
+- 双目运算符
+  对两个操作数进行操作的运算符称为双目运算符。
+  双目加法
+  ```cpp
+    Date operator + (int daysToAdd) // binary addition 
+    { 
+    Date newDate (month, day + daysToAdd, year); 
+    return newDate; 
+    }
+    Date PreviousHoliday (Holiday - 19);
+  ``` 
 - 赋值运算符重载
+  ```cpp
+    bool operator== (const Date& compareTo) 
+    { 
+    return ((day == compareTo.day) 
+    && (month == compareTo.month) 
+    && (year == compareTo.year)); 
+    }
+  ``` 
+- 重载复制赋值运算符（=）
+  ```cpp
+    // 复制赋值运算符：返回 MyString&，参数是 const MyString& copySource
+    MyString& operator= (const MyString& copySource) 
+    { 
+        if ((this != &copySource) && (copySource.buffer != NULL)) 
+        { 
+            // 关键步骤1：释放当前对象（this）原有 buffer 的内存
+            if (buffer != NULL) 
+                delete[] buffer;  // 避免内存泄漏（先清空旧的，再装新的）
+
+            // 关键步骤2：为当前对象分配新内存（深复制的核心）
+            // 内存大小 = 源对象字符串长度 + 1（+1是给 '\0' 结束符留位置）
+            buffer = new char [strlen(copySource.buffer) + 1]; 
+
+            // 关键步骤3：把源对象的内容拷贝到新内存
+            strcpy(buffer, copySource.buffer);  // strcpy：C语言函数，复制字符串
+        } 
+
+        return *this;  // 返回当前对象本身
+    } 
+  ``` 
+- 下标运算符
+  下标运算符让您能够像访问数组那样访问类，其典型语法如下：
+  return_type& operator [] (subscript_type& subscript);
 - 函数调用运算符重载
+- 用于高性能编程的移动构造函数和移动赋值运算符
+  - 未归纳 -
+- 用户定义的自变量
+  ```cpp
+  Temperature operator"" _C(long double celcius) 
+  { 
+  return Temperature(celcius + 273); 
+  } 
+  
+  Temperature operator "" _F(long double fahrenheit) 
+  { 
+  return Temperature((fahrenheit + 459.67) * 5 / 9); 
+  }
+ 
+  Temperature k1 = 31.73_F; 
+ 
+ 
+  ```
 #### 第十三章：类型转换运算符
 
+语法统一是：`目标类型 结果 = 转换运算符<目标类型>(要转换的数据)`。
+
+ 1. static_cast：“安全相关类型”的转换
+- **用途**：
+  - 相关类型的指针转换（比如继承体系里的基类和派生类指针）；
+  - 显式执行“本来能自动转换”的操作（比如`double`转`int`），让代码更易读。
+- **关键特点**：
+  - 编译时检查：只能转相关类型（比如基类和派生类），转完全不相关的类型会报错（比C风格安全）；
+  - 不做运行时检查：可能有隐患。比如把基类指针转成派生类指针（叫“向下转换”），哪怕基类指针实际指向的是基类对象，编译器也不报错，但运行时调用派生类特有函数会出问题。
+- **例子**：
+  ```cpp
+  double Pi = 3.14;
+  int num = static_cast<int>(Pi); // 显式把double转int，比直接写int num=Pi更清晰
+  ```
+
+ 2. dynamic_cast：“带运行时检查”的转换
+- **用途**：主要用于继承体系的“向下转换”（基类指针转派生类指针），能判断转换是否成功。
+- **关键特点**：
+  - 运行时检查：依赖“运行阶段类型识别（RTTI）”，转换成功返回有效指针，失败返回`NULL`；
+  - 必须有虚函数：基类里至少要有一个虚函数（比如析构函数），否则不能用。
+- **核心用法**：转换后一定要检查指针是否有效！
+- **例子**（对应书中代码）：
+  ```cpp
+  Fish* objBase = new Tuna(); // Fish是基类，Tuna是派生类
+  Tuna* objTuna = dynamic_cast<Tuna*>(objBase);
+  if (objTuna) { // 检查转换成功
+    objTuna->BecomeDinner(); // 安全调用派生类特有函数
+  }
+  ```
+
+ 3. reinterpret_cast：“暴力重新解读”的转换
+- **用途**：强制转换完全不相关的类型，相当于C风格转换的“C++版”。
+- **关键特点**：
+  - 不做任何类型检查，纯粹让编译器重新解读数据的二进制；
+  - 极不安全、不可移植，只在特殊场景用（比如驱动开发中把对象转成字节流给API）。
+- **警告**：非必要绝对不用！
+- **例子**：
+  ```cpp
+  SomeClass* obj = new SomeClass();
+  unsigned char* bytes = reinterpret_cast<unsigned char*>(obj); // 把对象转成字节流
+  ```
+
+ 4. const_cast：“移除const限制”的转换
+- **用途**：关闭变量的`const`属性，比如调用一个非`const`成员函数，但传入的参数是`const`对象。
+- **关键特点**：
+  - 只能修改`const`修饰符，不能改变类型；
+  - 风险高：如果原对象本身是`const`的，用它修改对象可能导致不可预料的行为。
+- **场景**：兼容第三方库（比如库函数没声明为`const`，但你的代码需要传`const`对象）。
+- **例子**：
+  ```cpp
+  void Display(const SomeClass& obj) {
+    SomeClass& ref = const_cast<SomeClass&>(obj); // 移除const
+    ref.DisplayMembers(); // 调用非const成员函数
+  }
+  ```
+
+5. 向上转换vs向下转换
+- **向上转换**：派生类指针→基类指针（比如`Tuna*`转`Fish*`），安全！不用显式转换，编译器自动支持；
+- **向下转换**：基类指针→派生类指针（比如`Fish*`转`Tuna*`），不安全！必须用显式转换，最好用`dynamic_cast`并检查结果。
+
+6. C++转换运算符不是万能的
+虽然比C风格精准，但也有缺点：
+- 语法繁琐：比如`static_cast<int>(Pi)`比`(int)Pi`写起来麻烦；
+- 部分场景没必要：简单的类型转换（比如`double`转`int`），C风格更简洁，很多程序员仍习惯用；
+- 尽量避免转换：类型转换本质上是“绕开编译器的类型检查”，优秀的代码应尽量减少转换。
 
 
 
@@ -796,3 +958,51 @@ int main() {
 #### 第二十七章：使用流进行输入和输出
 #### 第二十八章：异常处理
 #### 第二十九章：
+
+
+#### 文件操作
+- 操作文件三大类
+  1.ofstream:读操作
+  2.ifstream:写操作
+  3.fstream:读写操作
+- 写文件
+  1.包含头文件
+    #include <fstream>
+  2.创建流对象
+    ofstream ofs;
+  3.打开文件
+    ofs.open("文件路径",打开方式);
+  4.写数据
+    ofs<<"写入的数据";
+  5.关闭文件
+    ofs.close();
+- 二进制写文件
+  ofs.write((const char*)&p,sizeof(p));
+- 读文件
+  1.包含头文件
+    #include <fstream>
+  2.创建流对象
+    ifstream ifs;
+  3.打开文件
+    ifs.open("文件路径",打开方式);
+  4.读数据
+  ```cpp
+  char buf[]={0};
+  while(ifs>>buf)
+  {
+    cout<<buf<<endl;
+  }
+  ```    
+  5.关闭文件
+    ifs.close();
+- 二进制读文件
+  ifs.read((char*)&p,sizeof(p));
+- 文件打开方式
+  | 打开方式     | 解释 |
+  | ----------- | ----------- |
+  |ios::in       | 为读文件而打开文件|
+  ios::out|为写文件而打开文件
+  ios::ate|初始位置：文件尾
+  ios::app|追加方式写文件
+  ios::trunc|如果文件存在先删除再创建
+  ios::binary|二进制方式

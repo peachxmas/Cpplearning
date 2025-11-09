@@ -2,16 +2,133 @@
 
 using namespace std;
 
-class Fish
-{
 
-};
 
-int main()
-{
 
-    return 0;
-}
+// class CPU    
+// {
+// public:
+//     virtual void calculate()=0;
+// };
+// class VideoCard    
+// {
+// public:
+//     virtual void display()=0;
+// };
+// class Memory 
+// {
+// public:
+//     virtual void storage()=0;
+// };
+// class Computer
+// {
+//     public:
+//         Computer(CPU*cpu,VideoCard*vc,Memory*mem)
+//         {
+//             m_cpu=cpu;
+//             m_vc=vc;
+//             m_mem=mem;
+//         }
+//         void work()
+//         {
+//             m_cpu->calculate();
+//             m_vc->display();
+//             m_mem->storage();
+//         }
+//         ~Computer()
+//         {
+//         if(m_cpu!=NULL)
+//         {
+//             delete m_cpu;
+//             m_cpu=NULL;
+//         }
+//         if(m_vc!=NULL)
+//         {
+//             delete m_vc;
+//             m_vc=NULL;
+//         }
+//         if(m_mem!=NULL)
+//         {
+//             delete m_mem;
+//             m_mem=NULL;
+//         }
+//         }
+//     private:
+//         CPU*m_cpu;
+//         VideoCard*m_vc;
+//         Memory*m_mem;
+
+// };
+// class IntelCPU:public CPU
+// {
+//     public:
+//         virtual void calculate()
+//         {
+//             cout<<"intel的cpu开始计算"<<endl;
+//         }
+
+// };
+// class IntelVideoCard:public VideoCard  
+// {
+//     public:
+//         virtual void display()
+//         {
+//             cout<<"intel的显卡开始显示"<<endl;
+//         }
+
+// };
+// class IntelMemory:public Memory
+// {
+//     public:
+//         virtual void storage()
+//         {
+//             cout<<"intel的内存条开始存储"<<endl;
+//         }
+
+// };
+
+
+// class LCPU:public CPU
+// {
+//     public:
+//         virtual void calculate()
+//         {
+//             cout<<"L的cpu开始计算"<<endl;
+//         }
+
+// };
+// class LVideoCard:public VideoCard  
+// {
+//     public:
+//         virtual void display()
+//         {
+//             cout<<"L的显卡开始显示"<<endl;
+//         }
+
+// };
+// class LMemory:public Memory
+// {
+//     public:
+//         virtual void storage()
+//         {
+//             cout<<"L的内存条开始存储"<<endl;
+//         }
+
+// };
+// void test01()
+// {
+//     CPU * intelCpu=new IntelCPU;
+//     VideoCard*intelCard=new IntelVideoCard;
+//     Memory * intelMem=new IntelMemory;
+//     Computer*c1=new Computer(intelCpu,intelCard,intelMem);
+//     c1->work();
+//     delete c1;
+// }
+// int main()
+// {
+//     test01();
+//     return 0;
+// }
 //int main() {
 //    const double pi = 22.0 / 7;
 //    int r = 0;
