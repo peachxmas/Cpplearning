@@ -1001,8 +1001,270 @@ int main() {
         全局函数类外实现 - 需要提前让编译器知道全局函数的存在
 
 #### 第十五章：标准库简介
+- C++的面向对象和泛型编程思想，目的就是复用性的提升
+为了建立数据结构和算法的一套标准,诞生了STL
+- STL基本概念
+  STL(Standard Template Library,标准模板库)
+  STL 从广义上分为: 容器(container) 算法(algorithm) 迭代器(iterator)
+  容器和算法之间通过迭代器进行无缝连接。
+  STL 几乎所有的代码都采用了模板类或者模板函数
+- STL六大组件
+STL大体分为六大组件，分别是:容器、算法、迭代器、仿函数、适配器（配接器）、空间配置器
+1. 容器：各种数据结构，如vector、list、deque、set、map等,用来存放数据。
+2. 算法：各种常用的算法，如sort、find、copy、for_each等
+3. 迭代器：扮演了容器与算法之间的胶合剂。
+4. 仿函数：行为类似函数，可作为算法的某种策略。
+5. 适配器：一种用来修饰容器或者仿函数或迭代器接口的东西。
+6. 空间配置器：负责空间的配置与管理。
+- STL中容器、算法、迭代器
+  - 容器：
+  STL容器就是将运用最广泛的一些数据结构实现出来
+  常用的数据结构：数组, 链表,树, 栈, 队列, 集合, 映射表 等
+  这些容器分为序列式容器和关联式容器两种:
+    - 序列式容器:强调值的排序，序列式容器中的每个元素均有固定的位置。 
+    - 关联式容器:二叉树结构，各元素之间没有
+严格的物理上的顺序关系
+  - 算法：
+  有限的步骤，解决逻辑或数学上的问题，这一门学科我们叫做算法(Algorithms)
+  算法分为:质变算法和非质变算法。
+    - 质变算法：是指运算过程中会更改区间内的元素的内容。例如拷贝，替换，删除等等
+    - 非质变算法：是指运算过程中不会更改区间内的元素内容，例如查找、计数、遍历、寻找极值等等
+  - 迭代器：
+  提供一种方法，使之能够依序寻访某个容器所含的各个元素，而又无需暴露该容器的内部表示方式。
+  每个容器都有自己专属的迭代器
+  迭代器使用非常类似于指针，初学阶段我们可以先理解迭代器为指针
+  迭代器种类
+
+  |种类| 功能 |支持运算|
+  |-----|-------|----- |
+  |输入迭代器|对数据的只读访问 |只读，支持++、==、！=|
+  |输出迭代器| 对数据的只写访问 |只写，支持++|
+  前向迭代器 |读写操作，并能向前推进迭代器 |读写，支持++、==、！=|
+  双向迭代器 |读写操作，并能向前和向后操作 |读写，支持++、--，|
+  随机访问迭代器|读写操作,可以以跳跃的方式访问任意数据，功能最强的迭代器|读写，支持++、--、[n]、-n、<、<=、>、>=
+- 容器算法迭代器初识
+  - vector存放内置数据类型
+  容器：`vector`
+  算法： `for_each`
+  迭代器： `vector<int>::iterator`
+  ```cpp
+  #include <vector>
+  #include <algorithm>
+  void MyPrint(int val)
+  {
+  cout << val << endl;
+  }
+
+  void test01() 
+  {
+  //创建vector容器对象，并且通过模板参数指定容器中存放的数据的类型
+  vector<int> v;
+  //向容器中放数据
+  v.push_back(10);
+  v.push_back(20);
+  v.push_back(30);
+  v.push_back(40);
+  //每一个容器都有自己的迭代器，迭代器是用来遍历容器中的元素
+  //v.begin()返回迭代器，这个迭代器指向容器中第一个数据
+  //v.end()返回迭代器，这个迭代器指向容器元素的最后一个元素的下一个位置
+  //vector<int>::iterator 拿到vector<int>这种容器的迭代器类型
+  vector<int>::iterator pBegin = v.begin();
+  vector<int>::iterator pEnd = v.end();
+  //第一种遍历方式：
+  while (pBegin != pEnd) {
+  cout << *pBegin << endl;
+  pBegin++;
+  }
+
+  //第二种遍历方式：
+  for (vector<int>::iterator it = v.begin(); it != v.end(); it++) {
+  cout << *it << endl;
+  }
+  cout << endl;
+  //第三种遍历方式：
+  //使用STL提供标准遍历算法 头文件 algorithm
+  for_each(v.begin(), v.end(), MyPrint);
+  }
+
+  int main() {
+  test01();
+  system("pause");
+  return 0;
+  }
+
+  ```
+  - Vector存放自定义数据类型
+  ```cpp
+  #include <vector>
+  #include <string>
+  //自定义数据类型
+  class Person {
+  public:
+  Person(string name, int age) {
+  mName = name;
+  mAge = age;
+  }
+  public:
+  string mName;
+  int mAge;
+  };
+  //存放对象
+  void test01() {
+  vector<Person> v;
+  //创建数据
+  Person p1("aaa", 10);
+  Person p2("bbb", 20);
+  Person p3("ccc", 30);
+  Person p4("ddd", 40);
+  Person p5("eee", 50);
+  v.push_back(p1);
+  v.push_back(p2);
+  v.push_back(p3);
+  v.push_back(p4);
+  v.push_back(p5);
+  for (vector<Person>::iterator it = v.begin(); it != v.end(); it++) {
+  cout << "Name:" << (*it).mName << " Age:" << (*it).mAge << endl;
+  }
+  }
+  //放对象指针
+  void test02() {
+  vector<Person*> v;
+  //创建数据
+  Person p1("aaa", 10);
+  Person p2("bbb", 20);
+  Person p3("ccc", 30);
+  Person p4("ddd", 40);
+  Person p5("eee", 50);
+  v.push_back(&p1);
+  v.push_back(&p2);
+  v.push_back(&p3);
+  v.push_back(&p4);
+  v.push_back(&p5);
+  for (vector<Person*>::iterator it = v.begin(); it != v.end(); it++) {
+  Person * p = (*it);
+  cout << "Name:" << p->mName << " Age:" << (*it)->mAge << endl;
+  }
+  }
+  int main() {
+  test01();
+  test02();
+  system("pause");
+  return 0;
+  }
+  ```
+  -  Vector容器嵌套容器
+  ```cpp
+  #include <vector>
+  //容器嵌套容器
+  void test01() {
+  vector< vector<int> > v;
+  vector<int> v1;
+  vector<int> v2;
+  vector<int> v3;
+  vector<int> v4;
+  for (int i = 0; i < 4; i++) {
+  v1.push_back(i + 1);
+  v2.push_back(i + 2);
+  v3.push_back(i + 3);
+  v4.push_back(i + 4);
+  }
+  //将容器元素插入到vector v中
+  v.push_back(v1);
+  v.push_back(v2);
+  v.push_back(v3);
+  v.push_back(v4);
+  for (vector<vector<int>>::iterator it = v.begin(); it != v.end(); it++) //大容器遍历*it
+  {
+  for (vector<int>::iterator vit = (*it).begin(); vit != (*it).end(); vit++) {
+  cout << *vit << " ";
+  }
+  cout << endl;
+  }
+  }
+  int main() {
+  test01();
+  system("pause");
+  return 0;
+  }
+  ```
 #### 第十六章：STL string类
+- **string基本概念**
+  - 本质：
+    string是C++风格的字符串，而string本质上是一个类
+  - string和char * 区别：
+    char * 是一个指针
+    string是一个类，类内部封装了char*，管理这个字符串，是一个char*型的容器。
+  - **string构造函数**
+    `string();` //创建一个空的字符串 例如: string str;
+    `string(const char* s);` //使用字符串s初始化
+    `string(const string& str);` //使用一个string对象初始化另一个string对象
+    `string(int n, char c);` //使用n个字符c初始化
+  - **string赋值操作**
+    `string& operator=(const char* s);` //char*类型字符串 赋值给当前的字符串
+    `string& operator=(const string &s); `//把字符串s赋给当前的字符串
+    `string& operator=(char c);` //字符赋值给当前的字符串
+    `string& assign(const char *s); `//把字符串s赋给当前的字符串
+    `string& assign(const char *s, int n); `//把字符串s的前n个字符赋给当前的字符串
+    `string& assign(const string &s); `//把字符串s赋给当前字符串
+    `string& assign(int n, char c);` //用n个字符c赋给当前字符串
+  - **string字符串拼接**
+    `string& operator+=(const char* str); `//重载+=操作符
+    `string& operator+=(const char c); `//重载+=操作符
+    `string& operator+=(const string& str); `//重载+=操作符
+    `string& append(const char *s);` //把字符串s连接到当前字符串结尾
+    `string& append(const char *s, int n); `//把字符串s的前n个字符连接到当前字符串结尾
+    `string& append(const string &s); `//同operator+=(const string& str)
+    `string& append(const string &s, int pos, int n);` //字符串s中从pos开始的n个字符连接到字符串结尾
+  - **string查找和替换**
+    `int find(const string& str, int pos = 0) const; `//查找str第一次出现位置,从pos开始查找
+    `int find(const char* s, int pos = 0) const;` //查找s第一次出现位置,从pos开始查找
+    `int find(const char* s, int pos, int n) const;` //从pos位置查找s的前n个字符第一次位置
+    `int find(const char c, int pos = 0) const; `//查找字符c第一次出现位置
+    `int rfind(const string& str, int pos = npos) const; `//查找str最后一次位置,从pos开始查找
+    `int rfind(const char* s, int pos = npos) const; `//查找s最后一次出现位置,从pos开始查找
+    `int rfind(const char* s, int pos, int n) const; `//从pos查找s的前n个字符最后一次位置
+    `int rfind(const char c, int pos = 0) const;` //查找字符c最后一次出现位置
+    `string& replace(int pos, int n, const string& str); `//替换从pos开始n个字符为字符串str
+    `string& replace(int pos, int n,const char* s); `//替换从pos开始的n个字符为字符串s
+
+  find查找是从左往后，rfind从右往左
+  find找到字符串后返回查找的第一个字符位置，找不到返回-1
+  replace在替换时，要指定从哪个位置起，多少个字符，替换成什么样的字符串
+  - **string字符串比较**
+  字符串比较是按字符的ASCII码进行对比
+    = 返回 0
+    \> 返回 1
+    < 返回 -1
+  `int compare(const string &s) const; `//与字符串s比较
+  `int compare(const char *s) const; `//与字符串s比较
+  - **string字符存取**
+  `char& operator[](int n);` //通过[]方式取字符
+  `char& at(int n);` //通过at方法获取字符
+  - **string插入和删除**
+  `string& insert(int pos, const char* s); `//插入字符串
+  `string& insert(int pos, const string& str); `//插入字符串
+  `string& insert(int pos, int n, char c); `//在指定位置插入n个字符c
+  `string& erase(int pos, int n = npos);`//删除从Pos开始的n个字符
+  - **string子串**
+  `string substr(int pos = 0, int n = npos) const; `//返回由pos开始的n个字符组成的字符串
 #### 第十七章：STL 动态数组类
+- **vector基本概念**
+  - 功能：
+  vector数据结构和数组非常相似，也称为单端数组
+  - vector与普通数组区别：
+  不同之处在于数组是静态空间，而vector可以动态扩展
+  - 动态扩展：
+    - 并不是在原空间之后续接新空间，而是找更大的内存空间，然后将原数据拷贝新空间，释放原空间
+    - vector容器的迭代器是支持随机访问的迭代器
+- **vector构造函数**
+  `vector<T> v; `//采用模板实现类实现，默认构造函数
+  `vector(v.begin(), v.end());` //将v[begin(), end())区间中的元素拷贝给本身。
+  `vector(n, elem); `//构造函数将n个elem拷贝给本身。
+  `vector(const vector &vec);` //拷贝构造函数。
+- **vector赋值操作**
+  `vector& operator=(const vector &vec);` //重载等号操作符
+  `assign(beg, end); `//将[beg, end)区间中的数据拷贝赋值给本身。
+  `assign(n, elem); `//将n个elem拷贝赋值给本身。
 #### 第十八章：STL list和forward_list
 #### 第十九章：STL集合类
 #### 第二十章：STL映射类
