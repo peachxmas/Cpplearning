@@ -1265,16 +1265,245 @@ STL大体分为六大组件，分别是:容器、算法、迭代器、仿函数�
   `vector& operator=(const vector &vec);` //重载等号操作符
   `assign(beg, end); `//将[beg, end)区间中的数据拷贝赋值给本身。
   `assign(n, elem); `//将n个elem拷贝赋值给本身。
-#### 第十八章：STL list和forward_list
-#### 第十九章：STL集合类
-#### 第二十章：STL映射类
-#### 第二十一章：理解函数对象
+- **vector容量和大小**
+  `empty(); `//判断容器是否为空
+  `capacity();` //容器的容量
+  `size();` //返回容器中元素的个数
+  `resize(int num);` //重新指定容器的长度为num，若容器变长，则以默认值填充新位置。
+  //如果容器变短，则末尾超出容器长度的元素被删除。
+  `resize(int num, elem);` //重新指定容器的长度为num，若容器变长，则以elem值填充新位置。
+  //如果容器变短，则末尾超出容器长度的元素被删除
+- **vector插入和删除**
+  `push_back(ele); `//尾部插入元素ele
+  `pop_back();` //删除最后一个元素
+  `insert(const_iterator pos, ele);` //迭代器指向位置pos插入元素ele
+  `insert(const_iterator pos, int count,ele); `//迭代器指向位置pos插入count个元素ele
+  `erase(const_iterator pos);` //删除迭代器指向的元素
+  `erase(const_iterator start, const_iterator end);` //删除迭代器从start到end之间的元素
+  `clear(); `//删除容器中所有元素
+- **vector数据存取**
+`at(int idx); `//返回索引idx所指的数据
+`operator[];` //返回索引idx所指的数据
+`front(); `//返回容器中第一个数据元素
+`back(); `//返回容器中最后一个数据元素
+- **vector互换容器**
+`swap(vec); `// 将vec与本身的元素互换
+- **vector预留空间**
+`reserve(int len); `//容器预留len个元素长度，预留位置不初始化，元素不可访问。
+- **deque容器基本概念**
+  - 功能：
+    双端数组，可以对头端进行插入删除操作
+  - deque与vector区别：
+    - vector对于头部的插入删除效率低，数据量越大，效率越低
+    - deque相对而言，对头部的插入删除速度回比vector快
+    - vector访问元素时的速度会比deque快,这和两者内部实现有关
+  - deque内部工作原理:
+    - deque内部有个中控器，维护每段缓冲区中的内容，缓冲区中存放真实数据
+    - 中控器维护的是每个缓冲区的地址，使得使用deque时像一片连续的内存空间
+    - deque容器的迭代器也是支持随机访问的
+- **deque构造函数**
+  `deque<T> deqT; `//默认构造形式
+  `deque(beg, end);` //构造函数将[beg, end)区间中的元素拷贝给本身。
+  `deque(n, elem);` //构造函数将n个elem拷贝给本身。
+  `deque(const deque &deq);` //拷贝构造函数
+- **deque赋值操作**
+  `deque& operator=(const deque &deq); `//重载等号操作符
+  `assign(beg, end); `//将[beg, end)区间中的数据拷贝赋值给本身。
+  `assign(n, elem); `//将n个elem拷贝赋值给本身。
+- **deque大小操作**
+  `deque.empty(); `//判断容器是否为空
+  `deque.size(); `//返回容器中元素的个数
+  `deque.resize(num);` //重新指定容器的长度为num,若容器变长，则以默认值填充新位置。
+  //如果容器变短，则末尾超出容器长度的元素被删除。
+  `deque.resize(num, elem);` //重新指定容器的长度为num,若容器变长，则以elem值填充新位置。
+  //如果容器变短，则末尾超出容器长度的元素被删除。
+- **deque 插入和删除**
+*两端插入操作：*
+  `push_back(elem); `//在容器尾部添加一个数据
+  `push_front(elem);` //在容器头部插入一个数据
+  `pop_back();` //删除容器最后一个数据
+  `pop_front();` //删除容器第一个数据
+*指定位置操作：*
+  `insert(pos,elem);` //在pos位置插入一个elem元素的拷贝，返回新数据的位置。
+  `insert(pos,n,elem); `//在pos位置插入n个elem数据，无返回值。
+  `insert(pos,beg,end); `//在pos位置插入[beg,end)区间的数据，无返回值。
+  `clear();` //清空容器的所有数据
+  `erase(beg,end);` //删除[beg,end)区间的数据，返回下一个数据的位置。
+  `erase(pos);` //删除pos位置的数据，返回下一个数据的位置。
+- **deque 数据存取**
+`at(int idx);` //返回索引idx所指的数据
+`operator[];` //返回索引idx所指的数据
+`front();` //返回容器中第一个数据元素
+`back();` //返回容器中最后一个数据元素
+- **deque 排序**
+`sort(iterator beg, iterator end) `//对beg和end区间内元素进行排序
 
+
+#### 第十八章：STL list和forward_list
+- **list基本概念**
+  功能：将数据进行链式存储
+  链表（list）是一种物理存储单元上非连续的存储结构，数据元素的逻辑顺序是通过链表中的指针链接实现的
+  链表的组成：链表由一系列结点组成
+  结点的组成：一个是存储数据元素的数据域，另一个是存储下一个结点地址的指针域
+  STL中的链表是一个双向循环链表
+  由于链表的存储方式并不是连续的内存空间，因此链表list中的迭代器只支持前移和后移，属于双向迭代器
+  list的优点：
+  采用动态存储分配，不会造成内存浪费和溢出
+  链表执行插入和删除操作十分方便，修改指针即可，不需要移动大量元素
+  list的缺点：
+  链表灵活，但是空间(指针域) 和 时间（遍历）额外耗费较大
+  List有一个重要的性质，插入操作和删除操作都不会造成原有list迭代器的失效，这在vector是不成立的。
+  总结：STL中List和vector是两个最常被使用的容器，各有优缺点
+- **list构造函数** 
+`list<T> lst; `//list采用采用模板类实现,对象的默认构造形式：
+`list(beg,end);`  //构造函数将[beg, end)区间中的元素拷贝给本身。
+`list(n,elem); `//构造函数将n个elem拷贝给本身。
+`list(const list &lst); `//拷贝构造函数。
+- **list 赋值和交换**
+`assign(beg, end); `//将[beg, end)区间中的数据拷贝赋值给本身。
+`assign(n, elem);` //将n个elem拷贝赋值给本身。
+`list& operator=(const list &lst); `//重载等号操作符
+`swap(lst);` //将lst与本身的元素互换。
+- **list 大小操作**
+`size();` //返回容器中元素的个数
+`empty();` //判断容器是否为空
+`resize(num);` //重新指定容器的长度为num，若容器变长，则以默认值填充新位置。
+//如果容器变短，则末尾超出容器长度的元素被删除。
+`resize(num, elem);` //重新指定容器的长度为num，若容器变长，则以elem值填充新位置。
+//如果容器变短，则末尾超出容器长度的元素被删除。
+- **list 插入和删除**
+`push_back(elem);`//在容器尾部加入一个元素
+`pop_back();`//删除容器中最后一个元素
+`push_front(elem);`//在容器开头插入一个元素
+`pop_front();`//从容器开头移除第一个元素
+`insert(pos,elem);`//在pos位置插elem元素的拷贝，返回新数据的位置。
+`insert(pos,n,elem);`//在pos位置插入n个elem数据，无返回值。
+`insert(pos,beg,end);`//在pos位置插入[beg,end)区间的数据，无返回值。
+`clear();`//移除容器的所有数据
+`erase(beg,end);`//删除[beg,end)区间的数据，返回下一个数据的位置。
+`erase(pos);`//删除pos位置的数据，返回下一个数据的位置。
+`remove(elem);`//删除容器中所有与elem值匹配的元素。
+- **list 数据存取**
+`front();` //返回第一个元素。
+`back();` //返回最后一个元素。
+- **list 反转和排序**
+`reverse();` //反转链表
+`sort();` //链表排序
+#### 第十九章：STL集合类
+- **set基本概念**
+  - 简介：
+  所有元素都会在插入时自动被排序
+  - 本质：
+  set/multiset属于关联式容器，底层结构是用二叉树实现。
+  - set和multiset区别：
+  set不允许容器中有重复的元素
+  multiset允许容器中有重复的元素
+- **set构造和赋值**
+  - 构造：
+`set<T> st; `//默认构造函数：
+`set(const set &st); `//拷贝构造函数
+  - 赋值：
+`set& operator=(const set &st); `//重载等号操作符
+- **set大小和交换**
+`size(); `//返回容器中元素的数目
+`empty();` //判断容器是否为空
+`swap(st);` //交换两个集合容器
+- **set插入和删除**
+`insert(elem);` //在容器中插入元素。
+`clear(); `//清除所有元素
+`erase(pos); `//删除pos迭代器所指的元素，返回下一个元素的迭代器。
+`erase(beg, end);` //删除区间[beg,end)的所有元素 ，返回下一个元素的迭代器。
+`erase(elem);` //删除容器中值为elem的元素。
+- **set查找和统计**
+`find(key);` //查找key是否存在,若存在，返回该键的元素的迭代器；若不存在，返回set.end();
+`count(key);` //统计key的元素个数
+- **set和multiset区别**
+set不可以插入重复数据，而multiset可以
+set插入数据的同时会返回插入结果，表示插入是否成功
+multiset不会检测数据，因此可以插入重复数据
+- **pair对组创建**
+`pair<type, type> p ( value1, value2 );`
+`pair<type, type> p = make_pair( value1, value2 );`
+- **set容器排序**
+#### 第二十章：STL映射类
+- **map基本概念**
+  - 简介：
+  map中所有元素都是pair
+  pair中第一个元素为key（键值），起到索引作用，第二个元素为value（实值）
+  所有元素都会根据元素的键值自动排序
+  - 本质：
+  map/multimap属于关联式容器，底层结构是用二叉树实现。
+  - 优点：
+  可以根据key值快速找到value值
+  - map和multimap区别：
+  map不允许容器中有重复key值元素
+  multimap允许容器中有重复key值元素
+- **map构造和赋值**
+  - 构造：
+`map<T1, T2> mp;` //map默认构造函数:
+`map(const map &mp);` //拷贝构造函数
+  - 赋值：
+`map& operator=(const map &mp);` //重载等号操作符
+- **map大小和交换**
+`size(); `//返回容器中元素的数目
+`empty(); `//判断容器是否为空
+`swap(st);` //交换两个集合容器
+- **map插入和删除**
+`insert(elem); `//在容器中插入元素。
+`clear(); `//清除所有元素
+`erase(pos); `//删除pos迭代器所指的元素，返回下一个元素的迭代器。
+`erase(beg, end);` //删除区间[beg,end)的所有元素 ，返回下一个元素的迭代器。
+`erase(key);` //删除容器中值为key的元素。
+- **map查找和统计**
+`find(key); `//查找key是否存在,若存在，返回该键的元素的迭代器；若不存在，返回set.end();
+`count(key); `//统计key的元素个数
+- **map容器排序**
+
+#### 第二十一章：理解函数对象
+- **函数对象概念**
 ##  第4部分 再谈STL
 >专注于算法，您将学习如何通过迭代器对 vector 等容器进行 sort 操作。在这部分，您将发现，通过使用 C++11 新增的关键字 auto，可极大地简化冗长的迭代器声明。第 22 章将介绍 C++11 新增的 lambda 表达式，这可极大地简化使用 STL 算法的代码。
 #### 第二十二章：lambda表达式
 #### 第二十二章：STL算法
 #### 第二十二章：自适应容器：栈和队列
+- **stack 基本概念**
+  - **概念：** stack是一种先进后出(First In Last Out,FILO)的数据结构，它只有一个出口
+  - 栈中只有顶端的元素才可以被外界使用，因此栈不允许有遍历行为
+  - 栈中进入数据称为 --- 入栈 push
+  - 栈中弹出数据称为 --- 出栈 pop
+- **stack 常用接口**
+  - 构造函数：
+`stack<T> stk;` //stack采用模板类实现， stack对象的默认构造形式
+`stack(const stack &stk); `//拷贝构造函数
+  - 赋值操作：
+`stack& operator=(const stack &stk);` //重载等号操作符
+  - 数据存取：
+`push(elem);` //向栈顶添加元素
+`pop();` //从栈顶移除第一个元素
+`top();` //返回栈顶元素
+  - 大小操作：
+`empty();` //判断堆栈是否为空
+`size(); `//返回栈的大小
+- **queue 基本概念**
+  - **概念：** Queue是一种先进先出(First In First Out,FIFO)的数据结构，它有两个出口
+  - 队列容器允许从一端新增元素，从另一端移除元素
+  - 队列中只有队头和队尾才可以被外界使用，因此队列不允许有遍历行为
+  - 队列中进数据称为 --- 入队 push
+  - 队列中出数据称为 --- 出队 pop
+- **queue 常用接口**
+  - 构造函数：
+  `queue<T> que;` //queue采用模板类实现，queue对象的默认构造形式
+  `queue(const queue &que);` //拷贝构造函数
+  - 赋值操作：
+`queue& operator=(const queue &que);` //重载等号操作符操作符
+  - 数据存取：
+`push(elem);` //往队尾添加元素
+`pop(); `//从队头移除第一个元素
+`back(); `//返回最后一个元素
+`front(); `//返回第一个元素
+  - 大小操作：
+`empty(); `//判断堆栈是否为空
+`size(); `//返回栈的大小
 #### 第二十二章：使用STL位标志
 ##  第5部分 高级C++概念
 >阐述智能指针和异常处理等 C++功能。对 C++应用程序来说，这些功能并非必需的，但可极大地提高应用程序的稳定性和品质。在这部分的最后，简要地介绍了有助于编写杰出 C++应用程序的最佳实践，还展望了下一个 ISO 标准—C++17 有望引入的新特性。
