@@ -1461,6 +1461,46 @@ multiset不会检测数据，因此可以插入重复数据
 
 #### 第二十一章：理解函数对象
 - **函数对象概念**
+重载函数调用操作符的类，其对象常称为函数对象
+函数对象使用重载的()时，行为类似函数调用，也叫仿函数
+- **函数对象本质**
+函数对象(仿函数)是一个类，不是一个函数
+- **函数对象使用**
+函数对象在使用时，可以像普通函数那样调用, 可以有参数，可以有返回值
+函数对象超出普通函数的概念，函数对象可以有自己的状态
+函数对象可以作为参数传递
+- **谓词概念**
+返回bool类型的仿函数称为谓词
+如果operator()接受一个参数，那么叫做一元谓词
+如果operator()接受两个参数，那么叫做二元谓词
+- **内建函数对象**
+STL内建了一些函数对象
+  - 算术仿函数
+  ```cpp
+  template<class T> T plus<T> //加法仿函数
+  template<class T> T minus<T> //减法仿函数
+  template<class T> T multiplies<T> //乘法仿函数
+  template<class T> T divides<T> //除法仿函数
+  template<class T> T modulus<T> //取模仿函数
+  template<class T> T negate<T> //取反仿函数
+  ```
+  - 关系仿函数
+    ```cpp
+  template<class T> bool equal_to<T> //等于
+  template<class T> bool not_equal_to<T> //不等于
+  template<class T> bool greater<T> //大于
+  template<class T> bool greater_equal<T> //大于等于
+  template<class T> bool less<T> //小于
+  template<class T> bool less_equal<T> //小于等于
+  ```
+  - 逻辑仿函数
+    ```cpp
+  template<class T> bool logical_and<T> //逻辑与
+  template<class T> bool logical_or<T> //逻辑或
+  template<class T> bool logical_not<T> //逻辑非
+  ```
+这些仿函数所产生的对象，用法和一般函数完全相同
+使用内建函数对象，需要引入头文件 #include<functional>
 ##  第4部分 再谈STL
 >专注于算法，您将学习如何通过迭代器对 vector 等容器进行 sort 操作。在这部分，您将发现，通过使用 C++11 新增的关键字 auto，可极大地简化冗长的迭代器声明。第 22 章将介绍 C++11 新增的 lambda 表达式，这可极大地简化使用 STL 算法的代码。
 #### 第二十二章：lambda表达式
