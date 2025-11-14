@@ -206,47 +206,307 @@
 // }
 
 //queue容器(先进先出)
-#include <iostream>
-using namespace std;
-#include <queue>
-#include <string>
-class Person
-{
-    public:
-    Person(string name,int age)
-    {
-        this->m_Age=age;
-        this->m_Name=name;
-    }
-    string m_Name;
-    int m_Age;
-};
-void test01()
-{
-    queue<Person>q;
-    //入栈
-    Person p1("aaa",10);
-    Person p2("bbb",10);
-    Person p3("ccc",10);
-    Person p4("ddd",10);
-    q.push(p1);
-    q.push(p2);
-    q.push(p3);
-    q.push(p4);
+// #include <iostream>
+// using namespace std;
+// #include <queue>
+// #include <string>
+// class Person
+// {
+//     public:
+//     Person(string name,int age)
+//     {
+//         this->m_Age=age;
+//         this->m_Name=name;
+//     }
+//     string m_Name;
+//     int m_Age;
+// };
+// void test01()
+// {
+//     queue<Person>q;
+//     //入栈
+//     Person p1("aaa",10);
+//     Person p2("bbb",10);
+//     Person p3("ccc",10);
+//     Person p4("ddd",10);
+//     q.push(p1);
+//     q.push(p2);
+//     q.push(p3);
+//     q.push(p4);
 
-    // cout<<"栈的大小为"<<q.size()<<endl;
-    //只要队不为空，查看队头队尾，出队
-    while(!q.empty())
+//     // cout<<"栈的大小为"<<q.size()<<endl;
+//     //只要队不为空，查看队头队尾，出队
+//     while(!q.empty())
+//     {
+//         cout<<"队头元素为："<<q.front().m_Name<<q.front().m_Age<<endl;
+//         cout<<"队尾元素为："<<q.back().m_Name<<q.back().m_Age<<endl;
+//         //出队
+//         q.pop();
+//     }
+//     cout<<"队的大小为"<<q.size()<<endl;
+// }
+// int main()
+// {
+//     test01();
+//     return 0;
+// }
+
+//list链表
+// #include <iostream>
+// using namespace std;
+// #include <list>
+// #include <algorithm>
+// void printList(const list<int>&L)
+// {
+//     for(list<int>::const_iterator it=L.begin();it!=L.end();it++)
+//     {
+//         cout<<*it<<" ";
+//     }
+//         cout<<endl;
+// }
+// bool myCompare(int v1,int v2)
+// {
+//     return v1>v2;
+// }
+// void test01()
+// {
+
+//     list<int>L1;
+//     L1.push_back(20);
+//     L1.push_back(40);
+//     L1.push_back(30);
+//     L1.push_back(10);
+    
+    // printList(L1);
+    // list<int>L2(L1.begin(),L1.end());
+    // printList(L2);
+    // list<int>L3;
+    // L3.assign(10,100);
+    // printList(L3);
+
+    // L3.swap(L2);
+    // printList(L2);
+    // printList(L3);
+    // cout<<L2.size()<<endl;
+    // L2.insert(L2.begin(),1000);
+    // printList(L2);
+    // list<int>::iterator it=L2.begin();
+    // L2.insert(++it,200);
+    // printList(L2);
+    // it=L2.begin();
+    // L2.erase(++it);
+    // printList(L2);
+    // L2.remove(100);
+    // printList(L2);
+    // L2.clear();
+    // printList(L2);
+    // cout<<"第一个元素"<<L3.front()<<endl;
+    // cout<<"最后一个元素"<<L3.back()<<endl;
+
+//     printList(L1);
+//     L1.reverse();
+//     printList(L1);
+//     L1.sort(myCompare);
+//     printList(L1);
+
+// }
+// int main(){
+//     test01();
+//     return 0;
+// }
+
+//set/multiset容器
+// #include <iostream>
+// using namespace std;
+// #include <set>
+// void printSet(set<int>&s)
+// {
+//     for(set<int>::iterator it=s.begin();it!=s.end();it++)
+//     {
+//         cout<<*it<<" ";
+//     }
+//     cout<<endl;
+// }
+// void test01()
+// {
+//     set<int>s1;
+//     pair<set<int>::iterator,bool>ret=s1.insert(10);
+//     if(ret.second)
+//     {
+//         cout<<"插入成功"<<endl;
+//     }
+//     else
+//     {
+//         cout<<"插入失败"<<endl;
+//     }
+//     ret=s1.insert(10);
+//     if(ret.second)
+//     {
+//         cout<<"插入成功"<<endl;
+//     }
+//     else
+//     {
+//         cout<<"插入失败"<<endl;
+//     }
+
+//     multiset<int>ms;
+//     ms.insert(10);
+//     ms.insert(10);
+//     for (multiset<int>::iterator it = ms.begin(); it != ms.end(); it++) {
+//     cout << *it << " ";
+//     }
+//     cout << endl;
+// }
+// int main()
+// {
+//     test01();
+//     return 0;
+// }
+
+
+//pair对组
+// #include <iostream>
+// using namespace std;
+// #include <string>
+// //对组创建
+// void test01()
+// {
+//     pair<string,int>p("Tom",10);
+//     cout<<"姓名"<<p.first<<"年龄"<<p.second<<endl;
+//     pair<string,int>p2=make_pair("Jeery",30);
+//     cout<<"姓名"<<p2.first<<"年龄"<<p2.second<<endl;
+// }
+// int main() {
+// test01();
+// system("pause");
+// return 0;
+// }
+
+//set存放自定义数据类型怎么排序
+// #include <iostream>
+// using namespace std;
+// #include <string>
+// #include <set>
+// class Person
+// {
+// public:
+// Person(string name, int age)
+// {
+// this->m_Name = name;
+// this->m_Age = age;
+// }
+// string m_Name;
+// int m_Age;
+// };
+// class PersonCompare
+// {
+// public:
+// bool operator()(const Person&p1,const Person&p2)
+// {
+//     return p1.m_Age>p2.m_Age;
+// }
+// };
+// void test01()
+// {
+//     set<Person,PersonCompare>s;
+// // set<Person, comparePerson> s;
+// Person p1("刘备", 23);
+// Person p2("关羽", 27);
+// Person p3("张飞", 25);
+// Person p4("赵云", 21);
+// s.insert(p1);
+// s.insert(p2);
+// s.insert(p3);
+// s.insert(p4);
+// for (set<Person, PersonCompare>::iterator it = s.begin(); it != s.end(); it++)
+// {
+// cout << "姓名： " << it->m_Name << " 年龄： " << it->m_Age << endl;
+// }
+// }
+// int main() {
+// test01();
+// system("pause");
+// return 0;
+// }
+
+//员工分组
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+#include <ctime>
+using namespace std;
+
+#define CEHUA 0
+#define MEISHU 1
+#define YANFA 2
+class Worker
+{
+public:
+    string m_Name;
+    int m_Salary;
+};
+void createWorker(vector<Worker>&v)
+{
+    string nameSeed="ABCDEFGHIJ";
+    for(int i=0;i<10;i++)
     {
-        cout<<"队头元素为："<<q.front().m_Name<<q.front().m_Age<<endl;
-        cout<<"队尾元素为："<<q.back().m_Name<<q.back().m_Age<<endl;
-        //出队
-        q.pop();
+        Worker worker;
+        worker.m_Name="员工";
+        worker.m_Name+=nameSeed[i];
+        worker.m_Salary=rand()%10000+10000;//10000~19999
+        v.push_back(worker);
+
     }
-    cout<<"队的大小为"<<q.size()<<endl;
+}
+void setGroup(vector<Worker>&v,multimap<int,Worker>&m)
+{
+    for(vector<Worker>::iterator it=v.begin();it!=v.end();it++)
+    {
+        int deptId=rand()%3;//0 1 2
+        //key:部门编号  value:员工
+        m.insert(make_pair(deptId,*it));
+    }
+}
+void showWorkerByGroup(multimap<int,Worker>&m)
+{
+
+        cout<<"策划部门："<<endl;
+        multimap<int,Worker>::iterator pos=m.find(CEHUA);//查找第一个元素
+        int count=m.count(CEHUA);//统计元素个数
+        int index=0;
+        for(;pos!=m.end()&&index<count;pos++,index++)
+        {
+            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+        }
+        cout<<"美术部门："<<endl;
+        pos=m.find(MEISHU);
+        count=m.count(MEISHU);
+        index=0;
+        for(;pos!=m.end()&&index<count;pos++,index++)
+        {
+            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+        }
+        cout<<"研发部门："<<endl;
+        pos=m.find(YANFA);
+        count=m.count(YANFA);  
+        index=0;
+        for(;pos!=m.end()&&index<count;pos++,index++)
+        {
+            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+        }   
+
 }
 int main()
 {
-    test01();
+    srand((unsigned int)time(NULL));
+    //创建员工
+    vector<Worker>vWorker;
+    createWorker(vWorker);  
+    //分组
+    multimap<int,Worker>mWorker;
+    setGroup(vWorker,mWorker);
+    //显示分组结果
+    showWorkerByGroup(mWorker);
     return 0;
 }
