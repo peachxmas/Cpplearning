@@ -1505,6 +1505,143 @@ STL内建了一些函数对象
 >专注于算法，您将学习如何通过迭代器对 vector 等容器进行 sort 操作。在这部分，您将发现，通过使用 C++11 新增的关键字 auto，可极大地简化冗长的迭代器声明。第 22 章将介绍 C++11 新增的 lambda 表达式，这可极大地简化使用 STL 算法的代码。
 #### 第二十二章：lambda表达式
 #### 第二十二章：STL算法
+算法主要是由头文件 <algorithm> <functional> <numeric> 组成。
+<algorithm> 是所有STL头文件中最大的一个，范围涉及到比较、 交换、查找、遍历操作、复制、修改等等
+<numeric> 体积很小，只包括几个在序列上面进行简单数学运算的模板函数
+<functional> 定义了一些模板类,用以声明函数对象。
+
+- **常用遍历算法**
+  - for_each //遍历容器
+  for_each(iterator beg, iterator end, _func);
+  // 遍历算法 遍历容器元素
+  // beg 开始迭代器
+  // end 结束迭代器
+  // _func 函数或者函数对象
+  - transform //搬运容器到另一个容器中
+  transform(iterator beg1, iterator end1, iterator beg2, _func);
+  //beg1 源容器开始迭代器
+  //end1 源容器结束迭代器
+  //beg2 目标容器开始迭代器
+  //_func 函数或者函数对象
+- **常用查找算法**  
+  - find //查找元素
+  find(iterator beg, iterator end, value);
+  // 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+  // beg 开始迭代器
+  // end 结束迭代器
+  // value 查找的元素
+  - find_if //按条件查找元素
+  find_if(iterator beg, iterator end, _Pred);
+// 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+// beg 开始迭代器
+// end 结束迭代器
+// _Pred 函数或者谓词（返回bool类型的仿函数）
+  - adjacent_find //查找相邻重复元素
+  adjacent_find(iterator beg, iterator end);
+// 查找相邻重复元素,返回相邻元素的第一个位置的迭代器
+// beg 开始迭代器
+// end 结束迭代器
+  - binary_search //二分查找法
+  bool binary_search(iterator beg, iterator end, value);
+// 查找指定的元素，查到 返回true 否则false
+// 注意: 在无序序列中不可用
+// beg 开始迭代器
+// end 结束迭代器
+// value 查找的元素
+  - count //统计元素个数
+  count(iterator beg, iterator end, value);
+// 统计元素出现次数
+// beg 开始迭代器
+// end 结束迭代器
+// value 统计的元素
+  - count_if //按条件统计元素个数
+  count_if(iterator beg, iterator end, _Pred);
+// 按条件统计元素出现次数
+// beg 开始迭代器
+// end 结束迭代器
+// _Pred 谓词
+- **常用排序算法** 
+  - sort //对容器内元素进行排序
+  sort(iterator beg, iterator end, _Pred);
+// 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+// beg 开始迭代器
+// end 结束迭代器
+// _Pred 谓词
+  - random_shuffle //洗牌 指定范围内的元素随机调整次序
+  random_shuffle(iterator beg, iterator end);
+// 指定范围内的元素随机调整次序
+// beg 开始迭代器
+// end 结束迭代器
+  - merge // 容器元素合并，并存储到另一容器中
+  merge(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+// 容器元素合并，并存储到另一容器中
+// 注意: 两个容器必须是有序的
+// beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
+dest 目标容器开始迭代器
+  - reverse // 反转指定范围的元素
+  reverse(iterator beg, iterator end);
+// 反转指定范围的元素
+// beg 开始迭代器
+// end 结束迭代器
+- **常用拷贝和替换算法**
+  - copy // 容器内指定范围的元素拷贝到另一容器中
+  copy(iterator beg, iterator end, iterator dest);
+// 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
+// beg 开始迭代器
+// end 结束迭代器
+// dest 目标起始迭代器
+  - replace // 将容器内指定范围的旧元素修改为新元素
+  replace(iterator beg, iterator end, oldvalue, newvalue);
+// 将区间内旧元素 替换成 新元素
+// beg 开始迭代器
+// end 结束迭代器
+// oldvalue 旧元素
+// newvalue 新元素
+  - replace_if // 容器内指定范围满足条件的元素替换为新元素
+  replace_if(iterator beg, iterator end, _pred, newvalue);
+// 按条件替换元素，满足条件的替换成指定元素
+// beg 开始迭代器
+// end 结束迭代器
+// _pred 谓词
+// newvalue 替换的新元素
+  - swap // 互换两个容器的元素
+  swap(container c1, container c2);
+// 互换两个容器的元素
+// c1容器1
+// c2容器2
+- **常用算术生成算法**
+算术生成算法属于小型算法，使用时包含的头文件为 #include <numeric>
+  - accumulate // 计算容器元素累计总和
+  accumulate(iterator beg, iterator end, value);
+// 计算容器元素累计总和
+// beg 开始迭代器
+// end 结束迭代器
+// value 起始值
+  - fill // 向容器中添加元素
+  fill(iterator beg, iterator end, value);
+// 向容器中填充元素
+// beg 开始迭代器
+// end 结束迭代器
+// value 填充的值
+- **常用集合算法**
+  - set_intersection // 求两个容器的交集
+  set_intersection(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+// 求两个集合的交集
+// 注意:两个集合必须是有序序列
+// beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
+dest 目标容器开始迭代器
+  - set_union // 求两个容器的并集
+  set_union(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+// 求两个集合的并集
+// 注意:两个集合必须是有序序列
+// beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
+dest 目标容器开始迭代器
+  - set_difference // 求两个容器的差集
+  set_difference(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+// 求两个集合的差集
+// 注意:两个集合必须是有序序列
+// beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
+dest 目标容器开始迭代器
 #### 第二十二章：自适应容器：栈和队列
 - **stack 基本概念**
   - **概念：** stack是一种先进后出(First In Last Out,FILO)的数据结构，它只有一个出口
