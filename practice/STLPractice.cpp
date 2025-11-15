@@ -430,83 +430,232 @@
 // }
 
 //员工分组
+// #include <iostream>
+// #include <map>
+// #include <string>
+// #include <vector>
+// #include <ctime>
+// using namespace std;
+
+// #define CEHUA 0
+// #define MEISHU 1
+// #define YANFA 2
+// class Worker
+// {
+// public:
+//     string m_Name;
+//     int m_Salary;
+// };
+// void createWorker(vector<Worker>&v)
+// {
+//     string nameSeed="ABCDEFGHIJ";
+//     for(int i=0;i<10;i++)
+//     {
+//         Worker worker;
+//         worker.m_Name="员工";
+//         worker.m_Name+=nameSeed[i];
+//         worker.m_Salary=rand()%10000+10000;//10000~19999
+//         v.push_back(worker);
+
+//     }
+// }
+// void setGroup(vector<Worker>&v,multimap<int,Worker>&m)
+// {
+//     for(vector<Worker>::iterator it=v.begin();it!=v.end();it++)
+//     {
+//         int deptId=rand()%3;//0 1 2
+//         //key:部门编号  value:员工
+//         m.insert(make_pair(deptId,*it));
+//     }
+// }
+// void showWorkerByGroup(multimap<int,Worker>&m)
+// {
+
+//         cout<<"策划部门："<<endl;
+//         multimap<int,Worker>::iterator pos=m.find(CEHUA);//查找第一个元素
+//         int count=m.count(CEHUA);//统计元素个数
+//         int index=0;
+//         for(;pos!=m.end()&&index<count;pos++,index++)
+//         {
+//             cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+//         }
+//         cout<<"美术部门："<<endl;
+//         pos=m.find(MEISHU);
+//         count=m.count(MEISHU);
+//         index=0;
+//         for(;pos!=m.end()&&index<count;pos++,index++)
+//         {
+//             cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+//         }
+//         cout<<"研发部门："<<endl;
+//         pos=m.find(YANFA);
+//         count=m.count(YANFA);  
+//         index=0;
+//         for(;pos!=m.end()&&index<count;pos++,index++)
+//         {
+//             cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
+//         }   
+
+// }
+// int main()
+// {
+//     srand((unsigned int)time(NULL));
+//     //创建员工
+//     vector<Worker>vWorker;
+//     createWorker(vWorker);  
+//     //分组
+//     multimap<int,Worker>mWorker;
+//     setGroup(vWorker,mWorker);
+//     //显示分组结果
+//     showWorkerByGroup(mWorker);
+//     return 0;
+// }
+
+
+//stl常用算法
+// for_each最常用
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
-#include <ctime>
 using namespace std;
-
-#define CEHUA 0
-#define MEISHU 1
-#define YANFA 2
-class Worker
+#include <vector>
+#include <algorithm>
+#include <string>
+#include <numeric>
+void print01(int val)
 {
-public:
-    string m_Name;
-    int m_Salary;
+    cout<<val<<" ";
+}
+class print02
+{
+    public:
+    void operator()(int val)
+    {
+        cout<<val<<" ";
+    }
 };
-void createWorker(vector<Worker>&v)
+class Transform
 {
-    string nameSeed="ABCDEFGHIJ";
-    for(int i=0;i<10;i++)
+    public:
+    int operator()(int val)
     {
-        Worker worker;
-        worker.m_Name="员工";
-        worker.m_Name+=nameSeed[i];
-        worker.m_Salary=rand()%10000+10000;//10000~19999
-        v.push_back(worker);
-
+        return val*2;
     }
-}
-void setGroup(vector<Worker>&v,multimap<int,Worker>&m)
+};
+class Person
 {
-    for(vector<Worker>::iterator it=v.begin();it!=v.end();it++)
+    public:
+    Person(string name,int age)
     {
-        int deptId=rand()%3;//0 1 2
-        //key:部门编号  value:员工
-        m.insert(make_pair(deptId,*it));
+        this->m_Name=name;
+        this->m_Age=age;
     }
-}
-void showWorkerByGroup(multimap<int,Worker>&m)
+    bool operator==(const Person&p)const
+    {
+        return this->m_Age==p.m_Age;
+    }
+    string m_Name;
+    int m_Age;
+};
+void test01()
 {
+    vector<int>v;
+    vector<int>v2;
+    for(int i=1;i<10;i++)
+    {
+        v.push_back(i);
+        v2.push_back(i+5);
+    }  
+    // for_each(v.begin(),v.end(),print01);
+    // cout<<endl;
+    // for_each(v.begin(),v.end(),print02());
+    // cout<<endl;
+    vector<int>vT;
+    vT.resize(v.size()+v2.size());
+    // transform(v.begin(),v.end(),vT.begin(),Transform());
+    // for_each(vT.begin(),vT.end(),print02());
+    // cout<<endl;
+    vector<Person>vP;
+    vP.push_back(Person("aaa",10));
+    vP.push_back(Person("bbb",20));
+    vP.push_back(Person("ccc",30));
+    vP.push_back(Person("ddd",40));
+    vP.push_back(Person("eee",20));
 
-        cout<<"策划部门："<<endl;
-        multimap<int,Worker>::iterator pos=m.find(CEHUA);//查找第一个元素
-        int count=m.count(CEHUA);//统计元素个数
-        int index=0;
-        for(;pos!=m.end()&&index<count;pos++,index++)
-        {
-            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
-        }
-        cout<<"美术部门："<<endl;
-        pos=m.find(MEISHU);
-        count=m.count(MEISHU);
-        index=0;
-        for(;pos!=m.end()&&index<count;pos++,index++)
-        {
-            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
-        }
-        cout<<"研发部门："<<endl;
-        pos=m.find(YANFA);
-        count=m.count(YANFA);  
-        index=0;
-        for(;pos!=m.end()&&index<count;pos++,index++)
-        {
-            cout<<"姓名："<<pos->second.m_Name<<"  薪资："<<pos->second.m_Salary<<endl;
-        }   
+    // 查找 
+    find(v.begin(),v.end(),5)!=v.end()?cout<<"找到5了"<<endl:cout<<"没找到5"<<endl;
+    find(vP.begin(),vP.end(),Person("ccc",30))!=vP.end()?cout<<"找到了"<<endl:cout<<"没找到"<<endl;//需要重载==号
 
+    find_if(v.begin(),v.end(),[](int val){return val>5;})!=v.end()?cout<<"找到大于5的值了"<<endl:cout<<"没找到大于5的值"<<endl;
+    find_if(vP.begin(),vP.end(),[](const Person&p){return p.m_Age>30;})!=vP.end()?cout<<"找到年龄大于30的值了"<<endl:cout<<"没找到年龄大于30的值"<<endl;
+
+    adjacent_find(v.begin(),v.end())!=v.end()?cout<<"有相邻重复元素"<<endl:cout<<"没有相邻重复元素"<<endl;
+
+    binary_search(v.begin(),v.end(),5)?cout<<"找到5了"<<endl:cout<<"没找到5"<<endl;//必须有序序列
+    cout<<"5出现的次数为"<<count(v.begin(),v.end(),5)<<endl;
+    cout<<"年龄为20的人数为"<<count(vP.begin(),vP.end(),Person("bbb",20))<<endl;
+    cout<<"年龄大于25的人数为"<<count_if(vP.begin(),vP.end(),[](const Person&p){return p.m_Age>25;})<<endl;
+    cout<<"大于3的元素个数为"<<count_if(v.begin(),v.end(),[](int val){return val>3;})<<endl;
+
+    // 排序
+    sort(v.begin(),v.end(),[](int a,int b){return a>b;});
+    for_each(v.begin(),v.end(),print02());
+    cout<<endl;
+    random_shuffle(v.begin(),v.end());
+    for_each(v.begin(),v.end(),print02());
+    cout<<endl;
+
+    merge(v.begin(),v.end(),v2.begin(),v2.end(),vT.begin(),[](int a,int b){return a<b;});
+    for_each(vT.begin(),vT.end(),print02());
+    cout<<endl;
+
+    reverse(v.begin(),v.end());
+    for_each(v.begin(),v.end(),print02());
+    cout<<endl;
+
+    // 替换和拷贝
+    replace(v.begin(),v.end(),5,500);
+    for_each(v.begin(),v.end(),print02());
+    cout<<endl;
+    vector<int>vC;
+    vC.resize(v.size());
+    copy(v.begin(),v.end(),vC.begin());
+    for_each(vC.begin(),vC.end(),print02());
+    cout<<endl;
+
+    replace_if(vC.begin(),vC.end(),[](int val){return val>5;},1000);
+    for_each(vC.begin(),vC.end(),print02());
+    cout<<endl;
+    swap(v2,vC);
+    for_each(v2.begin(),v2.end(),print02());
+    cout<<endl;
+
+    // //数值计算相关
+    // cout<<"v中所有元素的和为"<<accumulate(v.begin(),v.end(),0)<<endl;//参数3：初始累加值
+    // cout<<"v中所有元素的乘积为"<<accumulate(v.begin(),v.end(),1,[](int a,int b){return a*b;})<<endl;
+    // fill(v.begin()+1,v.end(),10);
+    // for_each(v.begin(),v.end(),print02());
+    // cout<<endl;
+    
+    // //集合算法
+    // vector<int>vTarget;
+    // vTarget.resize(min(v.size(),v2.size()));
+    // vector<int>::iterator itEnd=set_intersection(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin());
+    // for_each(vTarget.begin(),set_intersection(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin()),print02());
+    // cout<<endl;
+
+    // vector<int>vTarget;
+    // vTarget.resize(v.size()+v2.size());
+    // // set_union(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin());
+    // for_each(vTarget.begin(),set_union(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin()),print02());
+    // cout<<endl;
+
+    vector<int>vTarget;
+    vTarget.resize(max(v.size(),v2.size()));
+    // set_difference(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin());
+    for_each(vTarget.begin(),set_difference(v.begin(),v.end(),v2.begin(),v2.end(),vTarget.begin()),print02());
+    cout<<endl;
 }
 int main()
 {
-    srand((unsigned int)time(NULL));
-    //创建员工
-    vector<Worker>vWorker;
-    createWorker(vWorker);  
-    //分组
-    multimap<int,Worker>mWorker;
-    setGroup(vWorker,mWorker);
-    //显示分组结果
-    showWorkerByGroup(mWorker);
+    test01();
     return 0;
 }
