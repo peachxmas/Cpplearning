@@ -1581,132 +1581,132 @@ sort(v.begin(), v.end(), [](int a, int b) { return a > b; }); // 结果：[4,3,2
 
 - **常用遍历算法**
   - for_each //遍历容器
-  for_each(iterator beg, iterator end, _func);
+  `for_each(iterator beg, iterator end, _func);`
   // 遍历算法 遍历容器元素
   // beg 开始迭代器
   // end 结束迭代器
   // _func 函数或者函数对象
   - transform //搬运容器到另一个容器中
-  transform(iterator beg1, iterator end1, iterator beg2, _func);
+  `transform(iterator beg1, iterator end1, iterator beg2, _func);`
   //beg1 源容器开始迭代器
   //end1 源容器结束迭代器
   //beg2 目标容器开始迭代器
   //_func 函数或者函数对象
 - **常用查找算法**  
   - find //查找元素
-  find(iterator beg, iterator end, value);
+  `find(iterator beg, iterator end, value);`
   // 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
   // beg 开始迭代器
   // end 结束迭代器
   // value 查找的元素
   - find_if //按条件查找元素
-  find_if(iterator beg, iterator end, _Pred);
+  `find_if(iterator beg, iterator end, _Pred);`
 // 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
 // beg 开始迭代器
 // end 结束迭代器
 // _Pred 函数或者谓词（返回bool类型的仿函数）
   - adjacent_find //查找相邻重复元素
-  adjacent_find(iterator beg, iterator end);
+  `adjacent_find(iterator beg, iterator end);`
 // 查找相邻重复元素,返回相邻元素的第一个位置的迭代器
 // beg 开始迭代器
 // end 结束迭代器
   - binary_search //二分查找法
-  bool binary_search(iterator beg, iterator end, value);
+  `bool binary_search(iterator beg, iterator end, value);`
 // 查找指定的元素，查到 返回true 否则false
 // 注意: 在无序序列中不可用
 // beg 开始迭代器
 // end 结束迭代器
 // value 查找的元素
   - count //统计元素个数
-  count(iterator beg, iterator end, value);
+  `count(iterator beg, iterator end, value);`
 // 统计元素出现次数
 // beg 开始迭代器
 // end 结束迭代器
 // value 统计的元素
   - count_if //按条件统计元素个数
-  count_if(iterator beg, iterator end, _Pred);
+  `count_if(iterator beg, iterator end, _Pred);`
 // 按条件统计元素出现次数
 // beg 开始迭代器
 // end 结束迭代器
 // _Pred 谓词
 - **常用排序算法** 
   - sort //对容器内元素进行排序
-  sort(iterator beg, iterator end, _Pred);
+  `sort(iterator beg, iterator end, _Pred);`
 // 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
 // beg 开始迭代器
 // end 结束迭代器
 // _Pred 谓词
   - random_shuffle //洗牌 指定范围内的元素随机调整次序
-  random_shuffle(iterator beg, iterator end);
+  `random_shuffle(iterator beg, iterator end);`
 // 指定范围内的元素随机调整次序
 // beg 开始迭代器
 // end 结束迭代器
   - merge // 容器元素合并，并存储到另一容器中
-  merge(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+  `merge(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);`
 // 容器元素合并，并存储到另一容器中
 // 注意: 两个容器必须是有序的
 // beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
 dest 目标容器开始迭代器
   - reverse // 反转指定范围的元素
-  reverse(iterator beg, iterator end);
+  `reverse(iterator beg, iterator end);`
 // 反转指定范围的元素
 // beg 开始迭代器
 // end 结束迭代器
 - **常用拷贝和替换算法**
   - copy // 容器内指定范围的元素拷贝到另一容器中
-  copy(iterator beg, iterator end, iterator dest);
+  `copy(iterator beg, iterator end, iterator dest);`
 // 按值查找元素，找到返回指定位置迭代器，找不到返回结束迭代器位置
 // beg 开始迭代器
 // end 结束迭代器
 // dest 目标起始迭代器
   - replace // 将容器内指定范围的旧元素修改为新元素
-  replace(iterator beg, iterator end, oldvalue, newvalue);
+  `replace(iterator beg, iterator end, oldvalue, newvalue);`
 // 将区间内旧元素 替换成 新元素
 // beg 开始迭代器
 // end 结束迭代器
 // oldvalue 旧元素
 // newvalue 新元素
   - replace_if // 容器内指定范围满足条件的元素替换为新元素
-  replace_if(iterator beg, iterator end, _pred, newvalue);
+  `replace_if(iterator beg, iterator end, _pred, newvalue);`
 // 按条件替换元素，满足条件的替换成指定元素
 // beg 开始迭代器
 // end 结束迭代器
 // _pred 谓词
 // newvalue 替换的新元素
   - swap // 互换两个容器的元素
-  swap(container c1, container c2);
+  `swap(container c1, container c2);`
 // 互换两个容器的元素
 // c1容器1
 // c2容器2
 - **常用算术生成算法**
 算术生成算法属于小型算法，使用时包含的头文件为 #include <numeric>
   - accumulate // 计算容器元素累计总和
-  accumulate(iterator beg, iterator end, value);
+  `accumulate(iterator beg, iterator end, value);`
 // 计算容器元素累计总和
 // beg 开始迭代器
 // end 结束迭代器
 // value 起始值
   - fill // 向容器中添加元素
-  fill(iterator beg, iterator end, value);
-// 向容器中填充元素
+  `fill(iterator beg, iterator end, value);
+// 向容器中填充元素`
 // beg 开始迭代器
 // end 结束迭代器
 // value 填充的值
 - **常用集合算法**
   - set_intersection // 求两个容器的交集
-  set_intersection(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+  `set_intersection(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);`
 // 求两个集合的交集
 // 注意:两个集合必须是有序序列
 // beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
 dest 目标容器开始迭代器
   - set_union // 求两个容器的并集
-  set_union(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+  `set_union(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);`
 // 求两个集合的并集
 // 注意:两个集合必须是有序序列
 // beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
 dest 目标容器开始迭代器
   - set_difference // 求两个容器的差集
-  set_difference(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);
+  `set_difference(iterator beg1, iterator end1, iterator beg2, iterator end2, iterator dest);`
 // 求两个集合的差集
 // 注意:两个集合必须是有序序列
 // beg1 容器1开始迭代器 // end1 容器1结束迭代器 // beg2 容器2开始迭代器 // end2 容器2结束迭代器 //
@@ -1751,9 +1751,140 @@ dest 目标容器开始迭代器
 `empty(); `//判断堆栈是否为空
 `size(); `//返回栈的大小
 #### 第二十二章：使用STL位标志
+标准模板库（STL）提供了可帮助组织与操作位信息的类。
+##### bitset 基本概念
+- **概念：** bitset 是 STL 中的实用类（非容器），用于处理固定长度的位序列和位标志，遵循“编译阶段定长”规则，不支持动态调整长度
+- 位序列仅支持按位操作，不允许直接遍历所有位（需通过接口访问）
+- 位设置为 1 称为 --- 置位 set
+- 位设置为 0 称为 --- 复位 reset
+- 位状态反转称为 --- 取反 flip
+##### bitset 常用接口
+- 构造函数：
+`bitset<N> bt;` // 模板参数 N 指定位数，默认构造（所有位初始化为 0）
+`bitset<N> bt(const string &s);` // 用 "0"/"1" 字符串初始化位序列
+`bitset<N> bt(unsigned long val);` // 用整数初始化（自动转换为二进制位序列）
+`bitset<N> bt(const bitset<N> &other);` // 拷贝构造函数
+- 赋值操作：
+`bitset<N>& operator=(const bitset<N> &other);` // 重载等号操作符
+- 位操作：
+`set();` // 将所有位置为 1
+`set(size_t pos, bool val = true);` // 将第 pos 位（从 0 开始）设为 val
+`reset();` // 将所有位复位为 0
+`reset(size_t pos);` // 将第 pos 位复位为 0
+`flip();` // 所有位取反（0→1，1→0）
+`operator[](size_t pos);` // 访问/修改第 pos 位
+- 数据查询：
+`count();` // 返回值为 1 的位数
+`size();` // 返回总位数
+`bool test(size_t pos);` // 判断第 pos 位是否为 1
+- 按位运算：
+`bitset<N> operator&(const bitset<N> &other);` // 按位与
+`bitset<N> operator|(const bitset<N> &other);` // 按位或
+`bitset<N> operator^(const bitset<N> &other);` // 按位异或
+`bitset<N> operator~();` // 按位取反
+`bitset<N>& operator>>=(size_t n);` // 按位右移 n 位
+`bitset<N>& operator<<=(size_t n);` // 按位左移 n 位
+- 流操作：
+`operator<<(ostream &os, const bitset<N> &bt);` // 输出位序列到流
+`operator>>(istream &is, bitset<N> &bt);` // 从流读取位序列（需为 0/1 字符串）
+
+##### vector<bool> 基本概念
+- **概念：** vector<bool> 是 std::vector 的部分具体化，专门存储布尔类型数据，支持动态调整长度，无需编译阶段指定位数
+- 元素本质是布尔标志（0/1 对应 false/true），支持动态增删
+- 支持迭代器遍历，用法与普通 vector 高度兼容
+- 所有元素状态反转称为 --- 取反 flip
+##### vector<bool> 常用接口
+- 构造函数：
+`vector<bool> vb;` // 默认构造（空向量）
+`vector<bool> vb(size_t n, bool val = false);` // 初始化 n 个元素，值均为 val
+`vector<bool> vb(const vector<bool> &other);` // 拷贝构造函数
+`vector<bool> vb(initializer_list<bool> il);` // 列表初始化（C++11+），如 {true, false, true}
+- 赋值操作：
+`vector<bool>& operator=(const vector<bool> &other);` // 重载等号操作符
+`vector<bool>& operator=(initializer_list<bool> il);` // 列表赋值（C++11+）
+- 数据存取：
+`operator[](size_t pos);` // 访问/修改第 pos 位（从 0 开始）
+`push_back(bool val);` // 向尾部添加元素（动态扩容）
+`pop_back();` // 移除尾部元素
+`at(size_t pos);` // 安全访问第 pos 位（越界抛异常）
+- 位操作：
+`flip();` // 所有元素取反（0→1，1→0）
+- 大小操作：
+`empty();` // 判断向量是否为空
+`size();` // 返回元素个数（位数）
+`resize(size_t n, bool val = false);` // 调整长度为 n，不足补 val
+- 其他操作：
+`clear();` // 清空所有元素
+`iterator begin();` // 返回起始迭代器
+`iterator end();` // 返回结束迭代器
 ##  第5部分 高级C++概念
 >阐述智能指针和异常处理等 C++功能。对 C++应用程序来说，这些功能并非必需的，但可极大地提高应用程序的稳定性和品质。在这部分的最后，简要地介绍了有助于编写杰出 C++应用程序的最佳实践，还展望了下一个 ISO 标准—C++17 有望引入的新特性。
 #### 第二十六章：理解智能指针
+包含头文件`<memory>`
+- unique_ptr:专属所有权
+unique_ptr 不支持复制和赋值
+只能使用 std::move 转移当前对象的所有权。转移之后，当前对象不再持有此内存，新的对象将获得专属所有权。
+```cpp
+auto w = std::make_unique<Widget>();
+auto w2 = w; // 编译错误
+auto w2 = std::move(w); // w2 获得内存所有权，w 此时等于 nullptr
+```
+应用实例：
+```cpp
+#include <memory>
+using namespace std;
+
+// 基类
+class Fish {
+public:
+    virtual void Swim() = 0; // 纯虚函数，统一接口
+    virtual ~Fish() {} // 虚析构，确保子类析构被调用
+};
+
+// 子类 1：金枪鱼
+class Tuna : public Fish {
+public:
+    void Swim() override { cout << "金枪鱼快速游泳" << endl; }
+};
+
+// 子类 2：鲤鱼
+class Carp : public Fish {
+public:
+    void Swim() override { cout << "鲤鱼慢慢游" << endl; }
+};
+
+// 统一接口：接收基类智能指针（支持所有子类）
+void MakeSwim(unique_ptr<Fish>& fish) {
+    fish->Swim(); // 调用子类的具体实现（多态）
+}
+
+int main() {
+    unique_ptr<Fish> tuna = make_unique<Tuna>();//父类指针指向子类对象
+    unique_ptr<Fish> carp = make_unique<Carp>();
+    
+    MakeSwim(tuna); // 输出：金枪鱼快速游泳
+    MakeSwim(carp); // 输出：鲤鱼慢慢游
+    return 0;
+}
+```
+- shared_ptr:共享所有权
+用法：std::shared_ptr<类型> 变量名称{}
+注意：std::make_shared不支持数组。
+```cpp
+std::shared_ptr<int> ptrA{};
+std::shared_ptr<int> ptrB{std::make_shared<int>(5)};
+```
+shared_ptr 代表的是共享所有权，即多个 shared_ptr 可以共享同一块内存。
+因此，从语义上来看，shared_ptr 是支持复制的。
+```cpp
+auto w = std::make_shared<Widget>();
+{
+    auto w2 = w;
+    cout << w.use_count() << endl;  // 2
+}
+cout << w.use_count() << endl;  // 1
+```
+shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复制一个 shared_ptr，引用计数会 + 1。当一个 shared_ptr 离开作用域时，引用计数会 - 1。当引用计数为 0 的时候，则 delete 内存。
 #### 第二十七章：使用流进行输入和输出
 #### 第二十八章：异常处理
 #### 第二十九章：
