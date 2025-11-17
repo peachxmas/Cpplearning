@@ -1886,10 +1886,19 @@ cout << w.use_count() << endl;  // 1
 ```
 shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复制一个 shared_ptr，引用计数会 + 1。当一个 shared_ptr 离开作用域时，引用计数会 - 1。当引用计数为 0 的时候，则 delete 内存。
 #### 第二十七章：使用流进行输入和输出
-#### 第二十八章：异常处理
-#### 第二十九章：
-
-
+- setw()设置字段宽度
+插入到流中的内容将在指定宽度内右对齐。
+- setfill( )指定填充字符
+使用 setfill( )指定使用什么字符来填充空白区域
+- cin.get()
+这种将文本插入到 char 数组（C 风格字符串）的方式更安全
+示例：cin.get(charBuf,9)
+- getline()和cin
+cin遇到空白后停止插入
+```cpp
+string name;
+getline(cin,name);//确保不跳过空白字符
+```
 #### 文件操作
 - 操作文件三大类
   1.ofstream:读操作
@@ -1936,3 +1945,87 @@ shared_ptr 内部是利用引用计数来实现内存的自动管理，每当复
   ios::app|追加方式写文件
   ios::trunc|如果文件存在先删除再创建
   ios::binary|二进制方式
+#### 第二十八章：异常处理
+异常可能是外部因素导致的，如系统没有足够的内存；也可能是应用程序内部因素导致的，如使
+用的指针包含无效值或除数为零。为了向调用者指出错误，有些模块引发异常。
+- 使用 try 和 catch 捕获异常
+```cpp
+void SomeFunc() 
+{ 
+ try 
+ { 
+ int* numPtr = new int; 
+ *numPtr = 999; 
+ delete numPtr; 
+ } 
+ catch(...) // ... catches all exceptions 
+ { 
+ cout << "Exception in SomeFunc(), quitting" << endl; 
+ } 
+}
+```
+- 捕获特定类型的异常
+可根据可能出现的异常添加多个 catch( )块
+例如`catch (std::bad_alloc& exp)`
+- 使用 throw 引发特定类型的异常
+```cpp
+void DoSomething() 
+{ 
+ if(something_unwanted) 
+ throw object; 
+}
+```
+- std::exception 类
+std::exception 是所有标准异常的（基类），提供了 what() 方法（返回错误描述）；
+自定义异常继承它，就能被 catch(const std::exception&) 统一捕获（不用写多个 catch 块）；
+流程：出错时引发异常 → 上层代码捕获异常 → 处理错误（比如打印信息、终止程序）。
+**实例：**
+```cpp
+#include <exception>
+#include <string>
+#include <iostream>
+using namespace std;
+
+// 自定义异常：文件打开失败
+class FileOpenFailedException : public std::exception {
+private:
+    string msg;
+public:
+    FileOpenFailedException(const string& filename) 
+        : msg("文件打开失败：" + filename) {}
+    virtual const char* what() const throw() {
+        return msg.c_str();
+    }
+};
+
+// 模拟文件读取（实际开发中替换为真实文件操作）
+void readFile(const string& filename) {
+    // 1. 检测文件名为空（自定义异常）
+    if (filename.empty()) {
+        throw InvalidParamException("文件名不能为空！");
+    }
+    // 2. 模拟文件不存在（自定义异常）
+    if (filename != "data.txt") {
+        throw FileOpenFailedException(filename);
+    }
+    // 3. 模拟读取时内存分配失败（标准异常 bad_alloc）
+    char* buffer = new char[1000000000000];  // 超大内存申请
+    delete[] buffer;
+    cout << "文件读取成功！" << endl;
+}
+
+int main() {
+    try {
+        readFile("wrong.txt");  // 文件名错误，触发 FileOpenFailedException
+    }
+    // 捕获所有 std::exception 异常（统一处理）
+    catch (const std::exception& e) {
+        cout << "程序出错：" << e.what() << endl;
+        // 这里可以加错误处理逻辑（比如记录日志、提示用户）
+    }
+
+    return 0;
+}
+```
+#### 第二十九章：
+
