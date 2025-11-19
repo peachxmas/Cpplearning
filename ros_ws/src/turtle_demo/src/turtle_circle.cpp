@@ -8,12 +8,12 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh;
 
     // 3. 创建发布者：发布 /turtle1/cmd_vel 话题
-    ros::Publisher vel_pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);
+    ros::Publisher vel_pub = nh.advertise<geometry_msgs::Twist>("/turtle1/cmd_vel", 10);//10 是队列长度
 
     // 4. 设置发布频率：10Hz（
     ros::Rate rate(10);
-
-    ROS_INFO("Turtle circle node started! ");
+    setlocale(LC_ALL, ""); // 解决中文输出问题
+    ROS_INFO("Turtle circle node started! 开始");
 
     // 5. 循环发布速度指令
     while (ros::ok()) {
