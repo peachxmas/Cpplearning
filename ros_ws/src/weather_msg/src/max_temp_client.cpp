@@ -14,11 +14,9 @@ int main(int argc, char** argv) {
     }
 
     ros::ServiceClient client = nh.serviceClient<weather_msg::QueryMaxTemp>("/query_max_temp");
-
     // 构造请求数据
     weather_msg::QueryMaxTemp srv;
     srv.request.city_name = argv[1];  
-
     // 发送请求
     ROS_INFO("正在查询 %s 的最高温...", srv.request.city_name.c_str());
     if (client.call(srv)) { // 成功
