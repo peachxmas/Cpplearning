@@ -1,3 +1,5 @@
+#include <locale.h>
+#include <string>
 #include <ros/ros.h>
 #include <std_msgs/String.h>  // 和发布者用同一个内置消息
 

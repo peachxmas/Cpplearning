@@ -1,6 +1,9 @@
+#include <cstdlib>  
+#include <locale.h> 
+#include <string>
 #include <ros/ros.h>
 #include <weather_msg/QueryMaxTemp.h>  
-#include <cstdlib>  
+
 
 int main(int argc, char** argv) {
     setlocale(LC_ALL, "");

@@ -1,6 +1,10 @@
+#include <locale.h>    // 中文适配
+#include <algorithm>   
+#include <map>         
+#include <vector>      
+#include <string>      
 #include <ros/ros.h>
-#include <weather_msg/QueryMaxTemp.h>  
-#include <vector>
+#include <weather_msg/QueryMaxTemp.h> 
 
 std::map<std::string, std::vector<double>> city_temps;
 
